@@ -1,4 +1,6 @@
-const typeDefs = `
+const { gql } = require('apollo-server');
+
+const typeDefs = gql`
   type Category {
     _id: ID
     name: String
@@ -37,6 +39,10 @@ const typeDefs = `
     user: User
   }
 
+  type PaymentIntent {
+    clientSecret: String
+  }
+
   type Query {
     categories: [Category]
     products(category: ID, name: String): [Product]
@@ -52,6 +58,7 @@ const typeDefs = `
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
+    createPaymentIntent(amount: Int!): PaymentIntent  # Define the mutation here
   }
 `;
 
