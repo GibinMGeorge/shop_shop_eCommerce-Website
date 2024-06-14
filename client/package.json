@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.15",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@stripe/react-stripe-js": "^2.7.1",
     "@stripe/stripe-js": "^1.54.2",
     "@testing-library/react": "^14.0.0",
@@ -20,6 +23,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
+    "semantic-ui-css": "^2.5.0",
     "vitest": "^0.32.0"
   },
   "devDependencies": {

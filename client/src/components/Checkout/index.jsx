@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 
-const stripePromise = loadStripe('pk_test_51PRJRF09GUGdB9qoDIZQOjftWnucqnNDNhtWTx9NpcLR2iHhdab4bG9ymwbBv4vQaOTs6P1Y2LRSLf5PWbs3KYUZ00uQLCmTIc'); 
+const stripePromise = loadStripe('pk_test_....'); // Replace with your actual publishable key
 
 const CREATE_PAYMENT_INTENT = gql`
   mutation createPaymentIntent($amount: Int!) {
@@ -26,20 +25,25 @@ const CheckoutForm = () => {
     event.preventDefault();
     setProcessing(true);
 
-    const { data } = await createPaymentIntent({ variables: { amount: 1000 } }); // Replace with actual amount
-    const clientSecret = data.createPaymentIntent.clientSecret;
+    try {
+      const { data } = await createPaymentIntent({ variables: { amount: 1000 } }); // Replace with actual amount
+      const clientSecret = data.createPaymentIntent.clientSecret;
 
-    const payload = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-      },
-    });
+      const payload = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+        },
+      });
 
-    if (payload.error) {
-      setProcessing(false);
-      console.error(payload.error.message);
-    } else {
-      setSucceeded(true);
+      if (payload.error) {
+        setProcessing(false);
+        console.error(payload.error.message);
+      } else {
+        setSucceeded(true);
+        setProcessing(false);
+      }
+    } catch (error) {
+      console.error('Error during payment:', error);
       setProcessing(false);
     }
   };
@@ -47,7 +51,7 @@ const CheckoutForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <CardElement />
-      <button disabled={processing || succeeded}>
+      <button type="submit" disabled={!stripe || processing || succeeded}>
         {processing ? 'Processing...' : 'Pay'}
       </button>
       {error && <div>{error.message}</div>}

@@ -1,6 +1,6 @@
 const { User, Product, Category, Order } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
-const stripe = require('stripe')('sk_test_51PRJRF09GUGdB9qoBfl76M58y6EeFZwflfE0Dl4XYwANPqDCEsRQUozf24VflA95XUv0pzYNiSwMgfWcfHTrf6nl00ThA7uY00'); 
+const stripe = require('stripe')('sk_test_.....'); // replace with your secret key
 
 const resolvers = {
   Query: {
